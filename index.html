@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#18794e">
+<title>سلة الخضار | طلب الخضر والفواكه</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f4f8f5;color:#24352a;font-family:Arial,Tahoma,sans-serif}
+main{max-width:850px;margin:auto;padding:14px}
+header{background:linear-gradient(135deg,#12613d,#26945f);color:#fff;padding:24px 18px;border-radius:18px;margin-bottom:14px}
+h1{margin:0 0 8px;font-size:27px}header p{margin:0;line-height:1.8}
+.panel{background:#fff;border:1px solid #dce8df;border-radius:15px;padding:15px;margin-bottom:13px}
+h2{font-size:19px;color:#18794e;margin:0 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+label{display:block;font-size:14px;margin-bottom:5px}
+input,textarea,select{width:100%;padding:11px;border:1px solid #cbd9cf;border-radius:9px;font:inherit;background:#fff}
+textarea{min-height:75px}
+.tabs{display:flex;gap:8px;margin-bottom:12px}.tab{flex:1;background:#e7f2ea;color:#20583a}.tab.active{background:#18794e;color:#fff}
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px}
+.item{display:flex;align-items:center;gap:10px;border:1px solid #e0e9e2;padding:9px 10px;border-radius:10px;background:#fbfdfb}
+.item span{flex:1}.item input{width:95px;flex-shrink:0;padding:8px;text-align:center}
+button{border:0;border-radius:10px;padding:12px 15px;font:inherit;font-weight:bold;cursor:pointer}
+.primary{background:#18794e;color:#fff;width:100%;font-size:17px}.secondary{background:#e7f2ea;color:#20583a}
+.hide{display:none!important}.hint{font-size:13px;color:#66766b;line-height:1.7}
+footer{text-align:center;color:#66766b;font-size:12px;padding:8px}
+@media(max-width:450px){main{padding:9px}h1{font-size:23px}.item input{width:82px}}
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>🥬 سلة الخضار 🍎</h1>
+<p>مرحبا بكم! اختار الخضر والفواكه اللي بغيتي، وكتب الكمية بالكيلو، وصيفط الطلب ديالك مباشرة عبر واتساب.</p>
+</header>
+<section class="panel">
+<h2>👤 معلومات الزبون</h2>
+<div class="grid">
+<div><label for="customer">الاسم الكامل *</label><input id="customer" placeholder="الاسم الكامل" autocomplete="name"></div>
+<div><label for="phone">رقم الهاتف *</label><input id="phone" placeholder="06xxxxxxxx" inputmode="tel" autocomplete="tel"></div>
+<div><label for="address">العنوان *</label><input id="address" placeholder="المدينة، الحي، الزنقة" autocomplete="street-address"></div>
+</div>
+<div style="margin-top:10px"><label for="notes">ملاحظات (اختياري)</label><textarea id="notes" placeholder="أي تفاصيل إضافية على الطلب"></textarea></div>
+</section>
+<section class="panel">
+<h2>🛒 اختار المنتجات والكمية</h2>
+<p class="hint">دخل الكمية المطلوبة بالكيلو فقط. خلي الخانة فارغة إلا ما بغيتيش داك المنتوج. الثمن كيتأكد من طرف المتجر حسب سوق اليوم.</p>
+<div class="tabs"><button class="tab active" id="vegTab" onclick="showCategory('veg')">🥦 الخضر</button><button class="tab" id="fruitTab" onclick="showCategory('fruit')">🍊 الفواكه</button></div>
+<div id="veg" class="products"></div><div id="fruit" class="products hide"></div>
+</section>
+<section class="panel">
+<h2>➕ إضافة منتوج آخر</h2>
+<div class="grid">
+<div><label for="customName">اسم المنتوج</label><input id="customName" placeholder="اسم المنتوج"></div>
+<div><label for="customType">الصنف</label><select id="customType"><option value="veg">خضر</option><option value="fruit">فواكه</option></select></div>
+</div>
+<button class="secondary" style="margin-top:10px" onclick="addCustom()">إضافة المنتوج</button>
+</section>
+<section class="panel">
+<h2>📲 إرسال الطلب</h2>
+<p class="hint">من بعد ما تكمل المعلومات والكميات، اضغط على الزر باش يتفتح واتساب برسالة الطلب جاهزة للمراجعة والإرسال.</p>
+<button class="primary" onclick="sendWhatsApp()">إرسال الطلب عبر واتساب</button>
+</section>
+<footer>سلة الخضار • شكراً على ثقتكم ❤️</footer>
+</main>
+<script>
+const catalog={
+veg:["بطاطا","بصلة يابسة","بصلة خضرا","مطيشة","مطيشة شيري","خيزو","لفت","باربا","فجل","كورجيط","دنجال","فلفلة خضرا","فلفلة حمرا","فلفلة صفرا","فلفلة حارة","خيار","قرعة حمرا","قرعة خضرا","بسباس","كرافس","معدنوس","قزبر","نعناع","خس","ملفوف أبيض","ملفوف أحمر","شفلور","بروكولي","لوبيا خضرا","جلبانة","فول خضر","خرشوف","ثوم","زنجبيل","بطاطا حلوة","ذرة","قوق","سلق","سبانخ","ملوخية","بامية","فطر شامبينيون"],
+fruit:["تفاح أحمر","تفاح أخضر","موز","برتقال","مندرين","كليمونتين","حامض","ليمون أخضر","عنب أبيض","عنب أسود","فريز","خوخ","نيكتارين","مشمش","إجاص","دلاح","بطيخ أصفر","أناناس","أفوكادو","مانجا","كيوي","رمان","تين","تين شوكي","تمر","كرز","برقوق","جريب فروت","بابايا","جوز الهند","توت","توت أزرق","توت العليق","سفرجل","كاكي","ليتشي"]
+};
+let customCounter=0;
+function esc(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function addItem(root,type,name,id){
+ const row=document.createElement('label');row.className='item';row.dataset.name=name;row.dataset.id=id;
+ row.innerHTML=`<span>${esc(name)}</span><input aria-label="كمية ${esc(name)} بالكيلو" type="number" min="0" step="0.25" placeholder="كمية كغ" inputmode="decimal">`;
+ root.appendChild(row);
+}
+function render(type){const root=document.getElementById(type);catalog[type].forEach((name,i)=>addItem(root,type,name,type+'-'+i));}
+function showCategory(type){document.getElementById('veg').classList.toggle('hide',type!=='veg');document.getElementById('fruit').classList.toggle('hide',type!=='fruit');document.getElementById('vegTab').classList.toggle('active',type==='veg');document.getElementById('fruitTab').classList.toggle('active',type==='fruit');}
+function addCustom(){
+ const name=document.getElementById('customName').value.trim();const type=document.getElementById('customType').value;
+ if(!name){alert('دخل اسم المنتوج أولا.');return;}
+ addItem(document.getElementById(type),type,name,'custom-'+(++customCounter));
+ document.getElementById('customName').value='';showCategory(type);
+}
+function sendWhatsApp(){
+ const name=document.getElementById('customer').value.trim(),phone=document.getElementById('phone').value.trim(),address=document.getElementById('address').value.trim(),notes=document.getElementById('notes').value.trim();
+ if(!name||!phone||!address){alert('عافاك عمر الاسم ورقم الهاتف والعنوان.');return;}
+ const chosen=[];document.querySelectorAll('.item').forEach(el=>{const q=parseFloat(el.querySelector('input').value)||0;if(q>0)chosen.push({name:el.dataset.name,qty:q});});
+ if(!chosen.length){alert('اختار منتوج واحد على الأقل ودخل الكمية بالكيلو.');return;}
+ let msg='🛒 طلب جديد — سلة الخضار\\n\\n👤 الاسم: '+name+'\\n📞 هاتف الزبون: '+phone+'\\n📍 العنوان: '+address+'\\n\\nالمنتجات والكميات:\\n';
+ chosen.forEach(x=>msg+='• '+x.name+': '+x.qty+' كغ\\n');
+ if(notes)msg+='\\n📝 ملاحظات: '+notes;
+ msg+='\\n\\nالمرجو تأكيد الثمن حسب سوق اليوم.';
+ const waNumber='212784297314';
+ window.open('https://wa.me/'+waNumber+'?text='+encodeURIComponent(msg),'_blank');
+}
+render('veg');render('fruit');
+</script>
+</body>
+</html>
