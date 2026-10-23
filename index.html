@@ -83,17 +83,57 @@ function addCustom(){
  addItem(document.getElementById(type),type,name,'custom-'+(++customCounter));
  document.getElementById('customName').value='';showCategory(type);
 }
-function sendWhatsApp(){
- const name=document.getElementById('customer').value.trim(),phone=document.getElementById('phone').value.trim(),address=document.getElementById('address').value.trim(),notes=document.getElementById('notes').value.trim();
- if(!name||!phone||!address){alert('عافاك عمر الاسم ورقم الهاتف والعنوان.');return;}
- const chosen=[];document.querySelectorAll('.item').forEach(el=>{const q=parseFloat(el.querySelector('input').value)||0;if(q>0)chosen.push({name:el.dataset.name,qty:q});});
- if(!chosen.length){alert('اختار منتوج واحد على الأقل ودخل الكمية بالكيلو.');return;}
- let msg='🛒 طلب جديد — سلة الخضار\\n\\n👤 الاسم: '+name+'\\n📞 هاتف الزبون: '+phone+'\\n📍 العنوان: '+address+'\\n\\nالمنتجات والكميات:\\n';
- chosen.forEach(x=>msg+='• '+x.name+': '+x.qty+' كغ\\n');
- if(notes)msg+='\\n📝 ملاحظات: '+notes;
- msg+='\\n\\nالمرجو تأكيد الثمن حسب سوق اليوم.';
- const waNumber='212784297314';
- window.open('https://wa.me/'+waNumber+'?text='+encodeURIComponent(msg),'_blank');
+function sendWhatsApp() {
+  const name = document.getElementById('customer').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const notes = document.getElementById('notes').value.trim();
+
+  if (!name || !phone || !address) {
+    alert('عافاك عمر الاسم ورقم الهاتف والعنوان.');
+    return;
+  }
+
+  const chosen = [];
+
+  document.querySelectorAll('.item').forEach(el => {
+    const q = parseFloat(el.querySelector('input').value) || 0;
+
+    if (q > 0) {
+      chosen.push({
+        name: el.dataset.name,
+        qty: q
+      });
+    }
+  });
+
+  if (!chosen.length) {
+    alert('اختار منتوج واحد على الأقل ودخل الكمية بالكيلو.');
+    return;
+  }
+
+  let msg = '🛒 طلب جديد — سلة الخضار\n\n';
+  msg += '👤 الاسم: ' + name + '\n';
+  msg += '📞 هاتف الزبون: ' + phone + '\n';
+  msg += '📍 العنوان: ' + address + '\n\n';
+  msg += '🛍️ المنتجات والكميات:\n';
+
+  chosen.forEach(x => {
+    msg += '• ' + x.name + ': ' + x.qty + ' كغ\n';
+  });
+
+  if (notes) {
+    msg += '\n📝 ملاحظات: ' + notes + '\n';
+  }
+
+  msg += '\nالمرجو تأكيد الثمن حسب سوق اليوم.';
+
+  const waNumber = '212784297314';
+
+  const url = 'https://wa.me/' + waNumber +
+    '?text=' + encodeURIComponent(msg);
+
+  window.location.href = url;
 }
 render('veg');render('fruit');
 </script>
